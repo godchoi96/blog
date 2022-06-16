@@ -16,12 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from blog import views
+from . import views
 
+app_name = 'blog'
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', views.IDView.as_view(), name="index"),
-    path('', include('user.urls')),
-    path('', include('api.urls'))
+    path('user/', include('user.urls')),
+    path('main/', include('main.urls')),
+
+    path('api/', include('api.urls')),
 ]

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Login {% endblock %}
+
+{# body #}
+{% block content %}
+    <div class="login">
+        <h1>로그인</h1>
+        <form action="{% url 'user:login' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="로그인"/>
+        </form>
+
+    </div>
+{% endblock %}
+
+{# footer  #}
+{% block footer %}
+
+{% endblock %}
+
+{% block extra-script %}
+
+{% endblock %}
