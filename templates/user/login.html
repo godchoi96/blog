@@ -6,6 +6,11 @@
 {# body #}
 {% block content %}
     <div class="login">
+        {% for message in messages %}
+        <div class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert">x</a>{{ message }}
+        </div>
+        {% endfor %}
         <h1>로그인</h1>
         <form action="{% url 'user:login' %}" method="POST">
             {% csrf_token %}

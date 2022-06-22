@@ -1,6 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -8,14 +8,14 @@ from user.forms import LoginForm, JoinForm
 from user.models import User
 
 
+# 로그인
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
-        return render(request, 'user/login.html', {'form' : form})
+        return render(request, 'user/login.html', {'form': form})
 
     def post(self, request):
-        form = LoginForm(request.POST)
-        username = request.POST['user_name']
+        username = request.POST['user_account']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
 
@@ -23,9 +23,14 @@ class LoginView(View):
             login(request, user)
             return redirect('main:main')
         else:
-            return HttpResponse('로그인 다시 시도')
+            if username == '' or password == '':
+                messages.error(request, "There is a blank space.")
+            else:
+                messages.error(request, 'username or password not correct')
+            return redirect('user:login')
 
 
+# 회원가입
 class JoinView(View):
     def get(self, request):
         form = JoinForm()
@@ -35,7 +40,11 @@ class JoinView(View):
         form = JoinForm(request.POST)
 
         if form.is_valid():
-            if form.cleaned_data['password'] != form.cleaned_data['password2']:
+            if User.objects.filter(user_account=form.cleaned_data['user_account']).exists():
+                messages.error(request, "Oops, Already existed.")
+                return redirect('user:join')
+            elif form.cleaned_data['password'] != form.cleaned_data['password2']:
+                messages.error(request, "password and password_check is not same")
                 return redirect('user:join')
             else:
                 obj = User()
@@ -48,4 +57,5 @@ class JoinView(View):
                 obj.save()
                 return redirect('user:login')
         else:
-            return HttpResponse('회원가입 다시')
+            messages.error(request, "check your input.")
+            return redirect('user:join')

@@ -7,6 +7,11 @@
 {% block content %}
     <div class="login">
         <h1>회원가입</h1>
+        {% for message in messages %}
+        <div class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert">x</a>{{ message }}
+        </div>
+        {% endfor %}
         <form action="{% url 'user:join' %}" method="POST">
             {% csrf_token %}
             {{ form.as_p }}
