@@ -20,13 +20,12 @@ Start - 2022.06.09
 <hr>
 
 ## 📃 Dev Note
-Not yet
+https://ch-oi-story.tistory.com/170
 
 <hr>
 
-## ✔ Views ClassName
-1. LoginView - 로그인 템플릿
-2. IDView - 페이지 첫 화면 템플릿
-3. APILoginView - 로그인 API
-
-<hr>
+## ✔ Directory
+1. api - CSR / SSR Server Routing
+2. main - Main Directory
+3. user - User Login / Join Directory
+4. blog - Project Directory
